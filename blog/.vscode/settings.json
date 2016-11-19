@@ -1,0 +1,10 @@
+{
+    "editor.fontFamily":"mono",
+    "editor.fontSize": 19,
+    "files.autoSave": "afterDelay",
+    "git.enabled": false,
+    "editor.renderWhitespace": " ",
+    "python.linting.pep8Enabled": true,
+    "python.linting.pylintEnabled": false,
+    "editor.wrappingColumn": 79
+}
