@@ -37,7 +37,7 @@ def Register():
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
-        sendmail(user.email, "Confirm your account", "auth/")
+        sendmail(user.email, "Confirm your account", "auth/email.html", token=token)
         flash("a confirmation email has been sent to you")
         return redirect(url_for("main.index"))
     return render_template("auth/register.html", form=Registerform)
@@ -54,3 +54,31 @@ def confirm(token):
         flash("the confirmation link is invalid or has expired")
     time.sleep(3)
     return redirect(url_for("main.index"))
+
+
+@auth.before_app_request
+def before_request():
+    if current_user.is_authenticated \
+            and not current_user.confirmed \
+            and request.endpoint[:5] != "auth." \
+            and request.endpoint != "static":
+        return redirect(url_for("auth.unconfirmed"))
+
+
+@auth.route('/unconfirmed')
+def unconfirmed():
+    if current_user.is_anonymous or current_user.confirmed:
+        # is_anonymous:是否匿名
+        return redirect(url_for("main.index"))
+    return render_template("auth/unconfirmed.html", user=current_user)
+
+
+@auth.route('/confirm')
+@login_required
+def resend_email():
+    token = current_user.generate_confirmation_token()
+    sendmail(current_user.email, "Confirm your account", "auth/email.html", token=token)
+    flash("A new confirmation email hae been sent")
+    return redirect(url_for("main.index"))
+
+

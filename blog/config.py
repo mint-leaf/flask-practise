@@ -6,7 +6,7 @@ class Config():
     SECRET_KEY = os.environ.get("security_key") or "hard to guess string"
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     Flask_Mail_Subject_prefix = '[Mint]'
-    Flask_Mail_From = 'Mint Admin <Mint@925034647@qq.com>'
+    Flask_Mail_From = 'Mint Admin <925034647@qq.com>'
     Flask_Admin = os.environ.get("flask_admin")
 
     @staticmethod

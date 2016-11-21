@@ -9,7 +9,7 @@
     <h3>welcome to Mint!</h3>
     <p>
         To confirm your account, please click on the following link:
-        {{ url_for("auth.confirm"), token = token, _external = True }}
+        {{ url_for("auth.confirm", token = token, _external = True )}}
     </p>
     <div>
         <p>
