@@ -1,4 +1,6 @@
-{% block page_content %}
+{% extends "base1.html" %}
+{% block content %}
+{{super()}}
 <div class="page-header">
     <h1>{{ user.username }}</h1>
     {% if user.username or user.location %}
@@ -10,12 +12,22 @@
         {% endif %}
     </p>
     {% endif %}
+    <img class="img-rounded profile-thumbnail" src="{{ user.gravatar(size=256) }}">
     {% if current_user.is_administrator %}
     <p><a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
     {% endif %}
     {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
+    {% if user == current_user %}
+    <a class="btn btn-default" href="{{ url_for('main.editor_profile') }}">Editor Profile</a>
+    {% endif %}
+    {% if current_user.is_admin() %}
+    <a class="btn btn-danger" href="{{ url_for('main.editor_profile_admin') }}">Editor Profile[Admin]</a>
+    {% endif %}
     <p>
-        Member since {{ moment(user.member_since).format('L')}}.
+        Member since {{ user.member_since }}.
+    </p>
+    <p>
+        Last seen {{ user.last_seen }}.
     </p>
 </div>
 {% endblock %}
